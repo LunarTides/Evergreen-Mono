@@ -6,7 +6,7 @@ namespace Evergreen.Items
 {
     internal class Dirt : Item
     {
-        public Dirt(Game game, Vector2 position) : base(game, position)
+        public Dirt(Vector2 position) : base(position)
         {
         }
 

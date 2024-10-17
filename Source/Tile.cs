@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Evergreen
 {
@@ -10,11 +11,11 @@ namespace Evergreen
         internal Texture2D texture;
         public Item Item;
 
-        public Tile(Game game, Vector2 position) : base(game)
+        public Tile(Vector2 position) : base(Evergreen.Instance)
         {
             Position = position;
 
-            LoadContent(game.Content);
+            LoadContent(Evergreen.Instance.Content);
         }
 
         public virtual void LoadContent(ContentManager content)
@@ -23,6 +24,18 @@ namespace Evergreen
 
         public override void Update(GameTime gameTime)
         {
+            MouseState mouseState = Mouse.GetState();
+
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                Vector2 tile_coords = Tile.MouseToTileCoords(mouseState.Position);
+
+                if (tile_coords == TileCoords())
+                {
+                    Destroy();
+                }
+            }
+
             base.Update(gameTime);
         }
 
@@ -33,11 +46,30 @@ namespace Evergreen
             base.Draw(gameTime);
         }
 
-        public void Destroy(Game game)
+        public void Destroy()
         {
-            game.Components.Remove(this);
+            Evergreen.Instance.Components.Remove(this);
             Item.Position = Position;
-            game.Components.Add(Item);
+            Evergreen.Instance.Components.Add(Item);
+        }
+
+        public Vector2 TileCoords()
+        {
+            Vector2 tileCoords = Position / 16f;
+            tileCoords.Floor();
+            return tileCoords;
+        }
+
+        public static Vector2 WorldToTileCoords(Vector2 worldCoords)
+        {
+            Vector2 tileCoords = worldCoords / 16f;
+            tileCoords.Floor();
+            return tileCoords;
+        }
+
+        public static Vector2 MouseToTileCoords(Point mouseCoords)
+        {
+            return WorldToTileCoords(Evergreen.Camera.DeprojectScreenPosition(mouseCoords));
         }
     }
 }

@@ -6,9 +6,9 @@ namespace Evergreen.Tiles
 {
     public class Dirt : Tile
     {
-        public Dirt(Game game, Vector2 position) : base(game, position)
+        public Dirt(Vector2 position) : base(position)
         {
-            Item = new Items.Dirt(game, position);
+            Item = new Items.Dirt(position);
         }
 
         public override void LoadContent(ContentManager content)

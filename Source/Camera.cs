@@ -23,6 +23,8 @@ namespace Evergreen
 
         private void UpdateVisibleArea()
         {
+            InverseViewMatrix = Matrix.Invert(Transform);
+
             var tl = Vector2.Transform(Vector2.Zero, InverseViewMatrix);
             var tr = Vector2.Transform(new Vector2(Bounds.X, 0), InverseViewMatrix);
             var bl = Vector2.Transform(new Vector2(0, Bounds.Y), InverseViewMatrix);

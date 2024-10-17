@@ -1,8 +1,6 @@
-﻿using Evergreen.Tiles;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace Evergreen
 {
@@ -12,10 +10,10 @@ namespace Evergreen
         public Vector2 Acceleration = Vector2.Zero;
         internal Texture2D texture;
 
-        public Item(Game game, Vector2 position) : base(game) {
+        public Item(Vector2 position) : base(Evergreen.Instance) {
             Position = position;
 
-            LoadContent(game.Content);
+            LoadContent(Evergreen.Instance.Content);
         }
 
         public virtual void LoadContent(ContentManager content)

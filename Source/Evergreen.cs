@@ -9,12 +9,10 @@ namespace Evergreen
     {
         public static Player Player;
         public static Camera Camera;
+        public static Evergreen Instance;
 
         public static GraphicsDeviceManager GraphicsManager;
         public static SpriteBatch SpriteBatch;
-
-        // TODO: Remove
-        Dirt dirt;
 
         public Evergreen()
         {
@@ -27,13 +25,14 @@ namespace Evergreen
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Instance = this;
             Camera = new(GraphicsDevice.Viewport);
 
             Player = new(this);
             Components.Add(Player);
 
             // TODO: Remove
-            dirt = new(this, Vector2.Zero);
+            Dirt dirt = new(Vector2.Zero);
             Components.Add(dirt);
 
             base.Initialize();
@@ -50,12 +49,6 @@ namespace Evergreen
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.IsPressed(Keys.Escape))
             {
                 Exit();
-            }
-
-            // TODO: Remove
-            if (Keyboard.IsJustPressed(Keys.F1))
-            {
-                dirt.Destroy(this);
             }
 
             Camera.UpdateCamera(GraphicsDevice.Viewport);
