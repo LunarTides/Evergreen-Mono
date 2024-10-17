@@ -2,7 +2,7 @@
 
 namespace Evergreen
 {
-    public class Keyboard
+    public abstract class Keyboard
     {
         static KeyboardState currentKeyState;
         static KeyboardState previousKeyState;

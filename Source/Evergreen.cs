@@ -13,6 +13,9 @@ namespace Evergreen
         public static GraphicsDeviceManager GraphicsManager;
         public static SpriteBatch SpriteBatch;
 
+        // TODO: Remove
+        Dirt dirt;
+
         public Evergreen()
         {
             GraphicsManager = new GraphicsDeviceManager(this);
@@ -30,7 +33,7 @@ namespace Evergreen
             Components.Add(Player);
 
             // TODO: Remove
-            Dirt dirt = new(this, Vector2.Zero);
+            dirt = new(this, Vector2.Zero);
             Components.Add(dirt);
 
             base.Initialize();
@@ -47,6 +50,12 @@ namespace Evergreen
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.IsPressed(Keys.Escape))
             {
                 Exit();
+            }
+
+            // TODO: Remove
+            if (Keyboard.IsJustPressed(Keys.F1))
+            {
+                dirt.Destroy(this);
             }
 
             Camera.UpdateCamera(GraphicsDevice.Viewport);

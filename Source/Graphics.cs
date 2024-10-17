@@ -1,14 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Evergreen
 {
-    public class Graphics
+    public abstract class Graphics
     {
         public static void Draw(Texture2D texture, Vector2 position)
         {

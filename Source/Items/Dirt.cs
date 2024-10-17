@@ -2,18 +2,17 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Evergreen.Tiles
+namespace Evergreen.Items
 {
-    public class Dirt : Tile
+    internal class Dirt : Item
     {
         public Dirt(Game game, Vector2 position) : base(game, position)
         {
-            Item = new Items.Dirt(game, position);
         }
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("tile/dirt");
+            texture = content.Load<Texture2D>("item/dirt");
             base.LoadContent(content);
         }
     }

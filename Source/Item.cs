@@ -1,17 +1,18 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Evergreen.Tiles;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Evergreen
 {
-    public class Tile : DrawableGameComponent
+    public class Item : DrawableGameComponent
     {
         public Vector2 Position;
+        public Vector2 Acceleration = Vector2.Zero;
         internal Texture2D texture;
-        public Item Item;
 
-        public Tile(Game game, Vector2 position) : base(game)
-        {
+        public Item(Game game, Vector2 position) : base(game) {
             Position = position;
 
             LoadContent(game.Content);
@@ -23,6 +24,9 @@ namespace Evergreen
 
         public override void Update(GameTime gameTime)
         {
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Physics.ApplyGravity(this, delta);
+
             base.Update(gameTime);
         }
 
@@ -31,13 +35,6 @@ namespace Evergreen
             Graphics.Draw(texture, Position);
 
             base.Draw(gameTime);
-        }
-
-        public void Destroy(Game game)
-        {
-            game.Components.Remove(this);
-            Item.Position = Position;
-            game.Components.Add(Item);
         }
     }
 }
