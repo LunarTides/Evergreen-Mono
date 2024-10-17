@@ -1,4 +1,4 @@
-﻿using Evergreen.tile;
+﻿using Evergreen.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

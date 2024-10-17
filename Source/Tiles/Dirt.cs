@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Evergreen.tile
+namespace Evergreen.Tiles
 {
     public class Dirt : Tile
     {
