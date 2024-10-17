@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Evergreen
+namespace Evergreen.System
 {
     public abstract class Physics
     {

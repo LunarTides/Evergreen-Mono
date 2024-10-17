@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Evergreen
+namespace Evergreen.System
 {
     public abstract class Graphics
     {

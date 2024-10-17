@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 
-namespace Evergreen
+namespace Evergreen.System
 {
     public abstract class Keyboard
     {
