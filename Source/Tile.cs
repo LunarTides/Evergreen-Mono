@@ -8,6 +8,8 @@ namespace Evergreen
 {
     public class Tile : DrawableGameComponent
     {
+        static uint TILE_SIZE = 16;
+
         public Vector2 Position;
         internal Texture2D texture;
         public Item Item;
@@ -56,16 +58,12 @@ namespace Evergreen
 
         public Vector2 TileCoords()
         {
-            Vector2 tileCoords = Position / 16f;
-            tileCoords.Floor();
-            return tileCoords;
+            return WorldToTileCoords(Position);
         }
 
         public static Vector2 WorldToTileCoords(Vector2 worldCoords)
         {
-            Vector2 tileCoords = worldCoords / 16f;
-            tileCoords.Floor();
-            return tileCoords;
+            return Vector2.Floor(worldCoords / TILE_SIZE);
         }
 
         public static Vector2 MouseToTileCoords(Point mouseCoords)
