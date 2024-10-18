@@ -45,7 +45,7 @@ namespace Evergreen
 
         public override void Draw(GameTime gameTime)
         {
-            Graphics.Draw(texture, Position);
+            Graphics.Draw(texture, Position * TILE_SIZE);
 
             base.Draw(gameTime);
         }
