@@ -9,11 +9,17 @@ using Keyboard = Evergreen.System.Keyboard;
 
 namespace Evergreen
 {
+    enum Direction {
+        Left,
+        Right,
+    }
+
     public class Player : DrawableGameComponent
     {
         public Vector2 Position;
         public Vector2 Acceleration = Vector2.Zero;
         private Texture2D texture;
+        private Direction direction = Direction.Right;
         private bool isOnFloor = false;
         private bool isBlockedRight = false;
         private bool isBlockedLeft = false;
@@ -52,11 +58,13 @@ namespace Evergreen
 
             if (!isBlockedLeft && Keyboard.IsPressed(Keys.A))
             {
+                direction = Direction.Left;
                 Position.X -= updatedPlayerSpeed;
             }
 
             if (!isBlockedRight && Keyboard.IsPressed(Keys.D))
             {
+                direction = Direction.Right;
                 Position.X += updatedPlayerSpeed;
             }
 
@@ -65,7 +73,8 @@ namespace Evergreen
 
         public override void Draw(GameTime gameTime)
         {
-            Graphics.Draw(texture, Position, new Vector2(0, texture.Bounds.Height));
+            SpriteEffects spriteEffects = direction == Direction.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Graphics.Draw(texture, Position, new Vector2(0, texture.Bounds.Height), spriteEffects);
 
             base.Draw(gameTime);
         }
