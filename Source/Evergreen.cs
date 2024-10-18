@@ -57,6 +57,22 @@ namespace Evergreen
                 Exit();
             }
 
+            MouseState mouseState = Mouse.GetState();
+
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                Vector2 tile_coords = Tile.MouseToTileCoords(mouseState.Position);
+
+                foreach (IGameComponent component in Evergreen.Instance.Components)
+                {
+                    if (component is Tile tile && tile.Position == tile_coords)
+                    {
+                        tile.Destroy();
+                        break;
+                    }
+                }
+            }
+
             Camera.UpdateCamera(GraphicsDevice.Viewport);
 
             base.Update(gameTime);

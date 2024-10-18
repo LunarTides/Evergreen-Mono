@@ -2,14 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace Evergreen
 {
     public class Tile : DrawableGameComponent
     {
-        static uint TILE_SIZE = 16;
+        const uint TILE_SIZE = 16;
 
         public Vector2 Position;
         internal Texture2D texture;
@@ -26,23 +25,6 @@ namespace Evergreen
 
         public virtual void LoadContent(ContentManager content)
         {
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            MouseState mouseState = Mouse.GetState();
-
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                Vector2 tile_coords = Tile.MouseToTileCoords(mouseState.Position);
-
-                if (tile_coords == TileCoords())
-                {
-                    Destroy();
-                }
-            }
-
-            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
@@ -62,13 +44,8 @@ namespace Evergreen
         public void Destroy()
         {
             Evergreen.Instance.Components.Remove(this);
-            Item.Position = Position;
+            Item.Position = Position * TILE_SIZE;
             Evergreen.Instance.Components.Add(Item);
-        }
-
-        public Vector2 TileCoords()
-        {
-            return WorldToTileCoords(Position);
         }
 
         public static Vector2 WorldToTileCoords(Vector2 worldCoords)
