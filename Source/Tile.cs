@@ -13,11 +13,13 @@ namespace Evergreen
 
         public Vector2 Position;
         internal Texture2D texture;
+        public Rectangle collisionBox;
         public Item Item;
 
         public Tile(Vector2 position) : base(Evergreen.Instance)
         {
             Position = position;
+            collisionBox = new Rectangle(((int)Position.X), ((int)Position.X), ((int)TILE_SIZE), ((int)TILE_SIZE));
 
             LoadContent(Evergreen.Instance.Content);
         }
