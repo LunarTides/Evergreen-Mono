@@ -1,4 +1,6 @@
-﻿using Evergreen.System;
+﻿using System;
+using System.Linq;
+using Evergreen.System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +15,11 @@ namespace Evergreen
         public Vector2 Acceleration = Vector2.Zero;
         private Texture2D texture;
         private Rectangle collisionBox;
-        float speed;
+        private bool isOnFloor = false;
+        private bool isBlockedRight = false;
+        private bool isBlockedLeft = false;
+        private bool isBlockedUp = false;
+        private float speed;
 
         public Player(Game game) : base(game)
         {
@@ -40,15 +46,19 @@ namespace Evergreen
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             float updatedPlayerSpeed = speed * delta;
 
-            Physics.ApplyGravity(this, delta);
             CheckCollisions();
 
-            if (Keyboard.IsPressed(Keys.A))
+            if (!isOnFloor)
+            {
+                Physics.ApplyGravity(this, delta);
+            }
+
+            if (!isBlockedLeft && Keyboard.IsPressed(Keys.A))
             {
                 Position.X -= updatedPlayerSpeed;
             }
 
-            if (Keyboard.IsPressed(Keys.D))
+            if (!isBlockedRight && Keyboard.IsPressed(Keys.D))
             {
                 Position.X += updatedPlayerSpeed;
             }
@@ -58,7 +68,7 @@ namespace Evergreen
 
         public override void Draw(GameTime gameTime)
         {
-            Graphics.Draw(texture, Position);
+            Graphics.Draw(texture, Position, new Vector2(0, texture.Bounds.Height));
 
             base.Draw(gameTime);
         }
@@ -72,21 +82,24 @@ namespace Evergreen
         {
             Vector2 pos = TileCoords();
 
-            Vector2[] positions = [
-                new Vector2(pos.X, pos.Y - 3),
+            Vector2[] stopLeftPositions = [
                 new Vector2(pos.X - 1, pos.Y - 2),
-                new Vector2(pos.X + 1, pos.Y - 2),
                 new Vector2(pos.X - 1, pos.Y - 1),
-                new Vector2(pos.X + 1, pos.Y - 1),
-                new Vector2(pos.X - 1, pos.Y),
-                new Vector2(pos.X + 1, pos.Y),
-                new Vector2(pos.X, pos.Y + 1),
             ];
 
-            foreach (Vector2 position in positions)
-            {
-                // TODO
-            }
+            Vector2[] stopRightPositions = [
+                new Vector2(pos.X + 1, pos.Y - 2),
+                new Vector2(pos.X + 1, pos.Y - 1),
+            ];
+
+            Vector2 stopUpPosition = new(pos.X, pos.Y - 3);
+            Vector2 stopDownPosition = pos;
+
+            isBlockedLeft = stopLeftPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
+            isBlockedRight = stopRightPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
+
+            isOnFloor = World.Tiles.TryGetValue(stopDownPosition, out Tile _);
+            isBlockedUp = World.Tiles.TryGetValue(stopUpPosition, out Tile _);
         }
 
         public bool CollidesWithTile(Tile tile)

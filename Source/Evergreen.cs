@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using Keyboard = Evergreen.System.Keyboard;
 
 namespace Evergreen
@@ -13,6 +12,7 @@ namespace Evergreen
         public static Camera Camera;
         public static Evergreen Instance;
         public static WorldGen WorldGen;
+        public static World World;
 
         public static GraphicsDeviceManager GraphicsManager;
         public static SpriteBatch SpriteBatch;
@@ -31,15 +31,7 @@ namespace Evergreen
             Instance = this;
             Camera = new(GraphicsDevice.Viewport);
 
-            WorldGen = new WorldGen();
-
-            // TODO: Remove
-            WorldGen.GenerateWorld(Random.Shared.Next());
-
-            Inventory = new();
-
-            Player = new(this);
-            Components.Add(Player);
+            World = new();
 
             base.Initialize();
         }
@@ -62,14 +54,9 @@ namespace Evergreen
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 Vector2 tile_coords = Tile.MouseToTileCoords(mouseState.Position);
-
-                foreach (IGameComponent component in Evergreen.Instance.Components)
+                if (World.Tiles.TryGetValue(tile_coords, out Tile tile))
                 {
-                    if (component is Tile tile && tile.Position == tile_coords)
-                    {
-                        tile.Destroy();
-                        break;
-                    }
+                    tile.Destroy();
                 }
             }
 

@@ -38,12 +38,14 @@ namespace Evergreen
         {
             T tile = (T)Activator.CreateInstance(typeof(T), [position]);
             Evergreen.Instance.Components.Add(tile);
+            World.Tiles.Add(position, tile);
             return tile;
         }
 
         public void Destroy()
         {
             Evergreen.Instance.Components.Remove(this);
+            World.Tiles.Remove(Position);
             Item.Position = Position * TILE_SIZE;
             Evergreen.Instance.Components.Add(Item);
         }
