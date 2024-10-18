@@ -9,6 +9,7 @@ namespace Evergreen
     public class Evergreen : Game
     {
         public static Player Player;
+        public static Inventory Inventory;
         public static Camera Camera;
         public static Evergreen Instance;
 
@@ -28,6 +29,8 @@ namespace Evergreen
 
             Instance = this;
             Camera = new(GraphicsDevice.Viewport);
+
+            Inventory = new();
 
             Player = new(this);
             Components.Add(Player);
