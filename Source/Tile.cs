@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Evergreen
 {
@@ -47,6 +48,13 @@ namespace Evergreen
             Graphics.Draw(texture, Position);
 
             base.Draw(gameTime);
+        }
+
+        public static T Create<T>(Vector2 position) where T : Tile
+        {
+            T tile = (T)Activator.CreateInstance(typeof(T), [position]);
+            Evergreen.Instance.Components.Add(tile);
+            return tile;
         }
 
         public void Destroy()

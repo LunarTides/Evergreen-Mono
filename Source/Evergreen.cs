@@ -1,7 +1,7 @@
-﻿using Evergreen.Tiles;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using Keyboard = Evergreen.System.Keyboard;
 
 namespace Evergreen
@@ -12,6 +12,7 @@ namespace Evergreen
         public static Inventory Inventory;
         public static Camera Camera;
         public static Evergreen Instance;
+        public static WorldGen WorldGen;
 
         public static GraphicsDeviceManager GraphicsManager;
         public static SpriteBatch SpriteBatch;
@@ -30,14 +31,15 @@ namespace Evergreen
             Instance = this;
             Camera = new(GraphicsDevice.Viewport);
 
+            WorldGen = new WorldGen();
+
+            // TODO: Remove
+            WorldGen.GenerateWorld(Random.Shared.Next());
+
             Inventory = new();
 
             Player = new(this);
             Components.Add(Player);
-
-            // TODO: Remove
-            Dirt dirt = new(Vector2.Zero);
-            Components.Add(dirt);
 
             base.Initialize();
         }
