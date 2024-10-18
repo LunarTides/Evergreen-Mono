@@ -17,7 +17,18 @@ namespace Evergreen
             rng = new Random(seed);
 
             // TODO: Remove
-            Tile.Create<Dirt>(Vector2.Zero);
+            GenerateDebugGround();
+        }
+
+        private static void GenerateDebugGround()
+        {
+            for (int y = 20; y < 40; y++)
+            {
+                for (int x = 0; x < 50; x++)
+                {
+                    Tile.Create<Dirt>(new Vector2(x, y));
+                }
+            }
         }
     }
 }

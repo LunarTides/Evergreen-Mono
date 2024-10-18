@@ -10,7 +10,8 @@ namespace Evergreen
     public class Player : DrawableGameComponent
     {
         public Vector2 Position;
-        Texture2D texture;
+        public Vector2 Acceleration = Vector2.Zero;
+        private Texture2D texture;
         float speed;
 
         public Player(Game game) : base(game)
@@ -33,8 +34,10 @@ namespace Evergreen
 
         public override void Update(GameTime gameTime)
         {
-            double delta = gameTime.ElapsedGameTime.TotalSeconds;
-            float updatedPlayerSpeed = speed * (float)delta;
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float updatedPlayerSpeed = speed * delta;
+
+            Physics.ApplyGravity(this, delta);
 
             if (Keyboard.IsPressed(Keys.A))
             {
