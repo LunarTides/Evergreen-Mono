@@ -75,7 +75,7 @@ namespace Evergreen
 
         private Vector2 TileCoords()
         {
-            return Tile.WorldToTileCoords(Position);
+            return Tile.WorldToTileCoords(new Vector2(((Position.X / 16f) + 1f) * 16, Position.Y));
         }
 
         private void CheckCollisions()
@@ -83,23 +83,31 @@ namespace Evergreen
             Vector2 pos = TileCoords();
 
             Vector2[] stopLeftPositions = [
-                new Vector2(pos.X - 1, pos.Y - 2),
-                new Vector2(pos.X - 1, pos.Y - 1),
+                new(pos.X - 1, pos.Y - 3),
+                new(pos.X - 1, pos.Y - 2),
+                new(pos.X - 1, pos.Y - 1),
             ];
 
             Vector2[] stopRightPositions = [
-                new Vector2(pos.X + 1, pos.Y - 2),
-                new Vector2(pos.X + 1, pos.Y - 1),
+                new(pos.X + 1, pos.Y - 3),
+                new(pos.X + 1, pos.Y - 2),
+                new(pos.X + 1, pos.Y - 1),
             ];
 
-            Vector2 stopUpPosition = new(pos.X, pos.Y - 3);
-            Vector2 stopDownPosition = pos;
+            Vector2[] stopUpPositions = [
+                new(pos.X, pos.Y - 3),
+                new(pos.X + 1, pos.Y - 1),
+            ];
+
+            Vector2[] stopDownPositions = [
+                new(pos.X, pos.Y),
+                new(pos.X + 1, pos.Y),
+            ];
 
             isBlockedLeft = stopLeftPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
             isBlockedRight = stopRightPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
-
-            isOnFloor = World.Tiles.TryGetValue(stopDownPosition, out Tile _);
-            isBlockedUp = World.Tiles.TryGetValue(stopUpPosition, out Tile _);
+            isBlockedUp = stopUpPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
+            isOnFloor = stopDownPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
         }
 
         public bool CollidesWithTile(Tile tile)
