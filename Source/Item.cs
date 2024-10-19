@@ -11,6 +11,7 @@ namespace Evergreen
         public Vector2 Acceleration = Vector2.Zero;
         internal Texture2D texture;
         private bool hasGravity = true;
+        private bool isOnFloor = false;
 
         public Item(Vector2 position) : base(Evergreen.Instance) {
             Position = position;
@@ -27,7 +28,9 @@ namespace Evergreen
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             float playerDistance = Vector2.Distance(Position, Evergreen.Player.Position);
 
-            if (hasGravity)
+            CheckCollisions();
+
+            if (hasGravity && !isOnFloor)
             {
                 Physics.ApplyGravity(this, delta);
             }
@@ -55,6 +58,17 @@ namespace Evergreen
             Graphics.Draw(texture, Position);
 
             base.Draw(gameTime);
+        }
+
+        private Vector2 TileCoords()
+        {
+            return Tile.WorldToTileCoords(Position);
+        }
+
+        private void CheckCollisions()
+        {
+            Vector2 coords = TileCoords();
+            isOnFloor = World.Tiles.ContainsKey(new Vector2(coords.X, coords.Y + 1));
         }
 
         private void FloatTowardsPlayer(float delta)

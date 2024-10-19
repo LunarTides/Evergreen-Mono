@@ -112,10 +112,10 @@ namespace Evergreen
                 new(pos.X + 1, pos.Y),
             ];
 
-            isBlockedLeft = stopLeftPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
-            isBlockedRight = stopRightPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
-            isBlockedUp = stopUpPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
-            isOnFloor = stopDownPositions.Any(position => World.Tiles.TryGetValue(position, out Tile _));
+            isBlockedLeft = stopLeftPositions.Any(World.Tiles.ContainsKey);
+            isBlockedRight = stopRightPositions.Any(World.Tiles.ContainsKey);
+            isBlockedUp = stopUpPositions.Any(World.Tiles.ContainsKey);
+            isOnFloor = stopDownPositions.Any(World.Tiles.ContainsKey);
         }
     }
 }
