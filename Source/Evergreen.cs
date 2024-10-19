@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Evergreen.System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Keyboard = Evergreen.System.Keyboard;
@@ -38,6 +39,7 @@ namespace Evergreen
 
         protected override void LoadContent()
         {
+            Sound.Load();
         }
 
         protected override void Update(GameTime gameTime)

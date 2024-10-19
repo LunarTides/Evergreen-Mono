@@ -43,6 +43,7 @@ namespace Evergreen
 
         public void Destroy()
         {
+            Sound.Play("Dig");
             Evergreen.Instance.Components.Remove(this);
             World.Tiles.Remove(Position);
             Item.Position = Position * TILE_SIZE;

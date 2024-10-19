@@ -65,6 +65,7 @@ namespace Evergreen
 
         private void PickUp()
         {
+            Sound.Play("Grab");
             Evergreen.Instance.Components.Remove(this);
             Evergreen.Inventory.Add(this);
         }
