@@ -6,7 +6,7 @@ using System;
 
 namespace Evergreen
 {
-    public class Tile : DrawableGameComponent
+    public abstract class Tile : DrawableGameComponent
     {
         const uint TILE_SIZE = 16;
 

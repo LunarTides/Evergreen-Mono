@@ -4,15 +4,11 @@ using System;
 
 namespace Evergreen
 {
-    public class WorldGen
+    public abstract class WorldGen
     {
-        private Random rng;
+        private static Random rng;
 
-        public WorldGen()
-        {
-        }
-
-        public void GenerateWorld(int seed)
+        public static void GenerateWorld(int seed)
         {
             rng = new Random(seed);
 

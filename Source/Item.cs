@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Evergreen
 {
-    public class Item : DrawableGameComponent
+    public abstract class Item : DrawableGameComponent
     {
         public Vector2 Position;
         public Vector2 Acceleration = Vector2.Zero;
@@ -67,7 +67,7 @@ namespace Evergreen
         {
             Sound.Play("Grab");
             Evergreen.Instance.Components.Remove(this);
-            Evergreen.Inventory.Add(this);
+            Inventory.Add(this);
         }
     }
 }

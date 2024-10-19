@@ -2,11 +2,11 @@
 
 namespace Evergreen
 {
-    public class Inventory
+    public abstract class Inventory
     {
-        public Dictionary<uint, List<Item>> Items = [];
+        public static Dictionary<uint, List<Item>> Items = [];
 
-        public void Add(Item item)
+        public static void Add(Item item)
         {
             // TODO: Calculate index properly.
             uint index = (uint)Items.Count;

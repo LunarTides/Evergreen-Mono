@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Evergreen.System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -28,7 +27,7 @@ namespace Evergreen
 
         public Player(Game game) : base(game)
         {
-            LoadContent(game.Content);
+            LoadContent();
         }
 
         public override void Initialize()
@@ -39,9 +38,12 @@ namespace Evergreen
             base.Initialize();
         }
 
-        public virtual void LoadContent(ContentManager content)
+        protected override void LoadContent()
         {
+            ContentManager content = Evergreen.Instance.Content;
             texture = content.Load<Texture2D>("Images/NPC_3");
+
+            base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
