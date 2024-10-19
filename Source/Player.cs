@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Evergreen.System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -23,7 +24,8 @@ namespace Evergreen
         private bool isBlockedRight = false;
         private bool isBlockedLeft = false;
         private bool isBlockedUp = false;
-        private float speed;
+        private const float SPEED = 100;
+        private const float JUMPING_FORCE = 200;
 
         public Player(Game game) : base(game)
         {
@@ -33,7 +35,6 @@ namespace Evergreen
         public override void Initialize()
         {
             Position = new Vector2(Evergreen.GraphicsManager.PreferredBackBufferWidth / 2, Evergreen.GraphicsManager.PreferredBackBufferHeight / 2);
-            speed = 100f;
 
             base.Initialize();
         }
@@ -49,18 +50,29 @@ namespace Evergreen
         public override void Update(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            float updatedPlayerSpeed = speed * delta;
+            float updatedPlayerSpeed = SPEED * delta;
 
             CheckCollisions();
 
-            if (!isOnFloor)
+            if (!isOnFloor && Acceleration.Y >= 0)
             {
-                Physics.ApplyGravity(this, delta);
+                Physics.ApplyGravity(this);
+            }
+            
+            if (isOnFloor)
+            {
+                Acceleration.Y = Math.Min(Acceleration.Y, 0);
+
+                if (!isBlockedUp && Keyboard.IsJustPressed(Keys.Space))
+                {
+                    Jump();
+                }
             }
 
             if (!isBlockedLeft && Keyboard.IsPressed(Keys.A))
             {
                 direction = Direction.Left;
+                // TODO: Use Acceleration
                 Position.X -= updatedPlayerSpeed;
             }
 
@@ -70,6 +82,7 @@ namespace Evergreen
                 Position.X += updatedPlayerSpeed;
             }
 
+            Physics.DoAcceleration(this, delta);
             base.Update(gameTime);
         }
 
@@ -116,6 +129,11 @@ namespace Evergreen
             isBlockedRight = stopRightPositions.Any(World.Tiles.ContainsKey);
             isBlockedUp = stopUpPositions.Any(World.Tiles.ContainsKey);
             isOnFloor = stopDownPositions.Any(World.Tiles.ContainsKey);
+        }
+
+        private void Jump()
+        {
+            Acceleration.Y = -JUMPING_FORCE;
         }
     }
 }

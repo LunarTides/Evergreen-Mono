@@ -7,10 +7,16 @@ namespace Evergreen.System
 {
     public abstract class Sound
     {
-        private static Dictionary<string, SoundEffect[]> sfx = [];
+        private static readonly Dictionary<string, SoundEffect[]> sfx = [];
+        private const bool ENABLED = true;
 
         public static void Load()
         {
+            if (!ENABLED)
+            {
+                return;
+            }
+
             ContentManager content = Evergreen.Instance.Content;
 
             sfx.Add("Dig", [
@@ -24,6 +30,11 @@ namespace Evergreen.System
 
         public static void Play(string name)
         {
+            if (!ENABLED)
+            {
+                return;
+            }
+
             SoundEffect[] sounds = sfx[name];
 
             SoundEffect sound = sounds[Random.Shared.Next(0, sounds.Length - 1)];

@@ -1,4 +1,5 @@
-﻿using Evergreen.System;
+﻿using System;
+using Evergreen.System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -32,12 +33,16 @@ namespace Evergreen
 
             if (hasGravity && !isOnFloor)
             {
-                Physics.ApplyGravity(this, delta);
+                Physics.ApplyGravity(this);
+            }
+            else
+            {
+                Acceleration.Y = Math.Min(Acceleration.Y, 0f);
             }
 
-            if (playerDistance < 100)
+            if (playerDistance < 100f)
             {
-                if (playerDistance < 10)
+                if (playerDistance < 10f)
                 {
                     PickUp();
                 }
@@ -50,6 +55,7 @@ namespace Evergreen
                 hasGravity = true;
             }
 
+            Physics.DoAcceleration(this, delta);
             base.Update(gameTime);
         }
 
