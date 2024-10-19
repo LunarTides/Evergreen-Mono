@@ -41,7 +41,7 @@ namespace Evergreen
 
         public virtual void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("player");
+            texture = content.Load<Texture2D>("Images/NPC_3");
         }
 
         public override void Update(GameTime gameTime)
@@ -73,8 +73,8 @@ namespace Evergreen
 
         public override void Draw(GameTime gameTime)
         {
-            SpriteEffects spriteEffects = direction == Direction.Right ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            Graphics.Draw(texture, Position, new Vector2(0, texture.Bounds.Height), spriteEffects);
+            SpriteEffects spriteEffects = direction == Direction.Left ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            Graphics.Draw(texture, Position, new Rectangle(0, 0, 37, 45), new Vector2(0, 45), spriteEffects);
 
             base.Draw(gameTime);
         }

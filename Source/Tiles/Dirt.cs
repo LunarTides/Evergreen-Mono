@@ -13,7 +13,7 @@ namespace Evergreen.Tiles
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("tile/dirt");
+            texture = content.Load<Texture2D>("Images/Tiles_0");
             base.LoadContent(content);
         }
     }

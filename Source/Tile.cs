@@ -27,7 +27,8 @@ namespace Evergreen
 
         public override void Draw(GameTime gameTime)
         {
-            Graphics.Draw(texture, Position * TILE_SIZE);
+            Rectangle source = new(16, 16, 16, 16);
+            Graphics.Draw(texture, new Vector2(Position.X, Position.Y + 1) * TILE_SIZE, source, new Vector2(0, TILE_SIZE), SpriteEffects.None);
 
             base.Draw(gameTime);
         }

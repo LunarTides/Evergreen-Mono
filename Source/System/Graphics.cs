@@ -12,10 +12,17 @@ namespace Evergreen.System
             Evergreen.SpriteBatch.End();
         }
 
-        public static void Draw(Texture2D texture, Vector2 position, Vector2 origin, SpriteEffects spriteEffects)
+        public static void Draw(Texture2D texture, Vector2 position, Rectangle sourceRectangle)
         {
             Evergreen.SpriteBatch.Begin(transformMatrix: Evergreen.Camera.Transform);
-            Evergreen.SpriteBatch.Draw(texture, position, null, Color.White, 0f, origin, Vector2.One, spriteEffects, 0f);
+            Evergreen.SpriteBatch.Draw(texture, position, sourceRectangle, Color.White);
+            Evergreen.SpriteBatch.End();
+        }
+
+        public static void Draw(Texture2D texture, Vector2 position, Rectangle sourceRectangle, Vector2 origin, SpriteEffects spriteEffects)
+        {
+            Evergreen.SpriteBatch.Begin(transformMatrix: Evergreen.Camera.Transform);
+            Evergreen.SpriteBatch.Draw(texture, position, sourceRectangle, Color.White, 0f, origin, Vector2.One, spriteEffects, 0f);
             Evergreen.SpriteBatch.End();
         }
 

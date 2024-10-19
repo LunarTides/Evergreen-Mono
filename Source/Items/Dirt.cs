@@ -12,7 +12,7 @@ namespace Evergreen.Items
 
         public override void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("item/dirt");
+            texture = content.Load<Texture2D>("Images/Item_2");
             base.LoadContent(content);
         }
     }
