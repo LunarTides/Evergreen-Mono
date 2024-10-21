@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
-namespace Evergreen.System
-{
-    public abstract class Sound
-    {
+namespace Evergreen.System {
+    public abstract class Sound {
         private static readonly Dictionary<string, SoundEffect[]> sfx = [];
         private const bool ENABLED = true;
 
-        public static void Load()
-        {
-            if (!ENABLED)
-            {
+        public static void Load() {
+            if (!ENABLED) {
                 return;
             }
 
@@ -28,10 +24,12 @@ namespace Evergreen.System
             sfx.Add("Grab", [content.Load<SoundEffect>("Sounds/Grab")]);
         }
 
-        public static void Play(string name)
-        {
-            if (!ENABLED)
-            {
+        /// <summary>
+        /// Plays a sound effect. If there are multiple sounds with the same name, it plays a random one of those.
+        /// </summary>
+        /// <param name="name">The name of the sound effect to play.</param>
+        public static void Play(string name) {
+            if (!ENABLED) {
                 return;
             }
 

@@ -4,10 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Evergreen
-{
-    public abstract class Item : DrawableGameComponent
-    {
+namespace Evergreen {
+    public abstract class Item : DrawableGameComponent {
         public Vector2 Position;
         public Vector2 Acceleration = Vector2.Zero;
         internal Texture2D texture;
@@ -20,38 +18,28 @@ namespace Evergreen
             LoadContent(Evergreen.Instance.Content);
         }
 
-        public virtual void LoadContent(ContentManager content)
-        {
-        }
+        public virtual void LoadContent(ContentManager content) {}
 
-        public override void Update(GameTime gameTime)
-        {
+        public override void Update(GameTime gameTime) {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             float playerDistance = Vector2.Distance(Position, Evergreen.Player.Position);
 
             CheckCollisions();
 
-            if (hasGravity && !isOnFloor)
-            {
+            if (hasGravity && !isOnFloor) {
                 Physics.ApplyGravity(this);
-            }
-            else
-            {
+            } else {
                 Acceleration.Y = Math.Min(Acceleration.Y, 0f);
             }
 
-            if (playerDistance < 100f)
-            {
-                if (playerDistance < 10f)
-                {
+            if (playerDistance < 100f) {
+                if (playerDistance < 10f) {
                     PickUp();
                 }
 
                 FloatTowardsPlayer(delta);
                 hasGravity = false;
-            }
-            else
-            {
+            } else {
                 hasGravity = true;
             }
 
@@ -59,32 +47,27 @@ namespace Evergreen
             base.Update(gameTime);
         }
 
-        public override void Draw(GameTime gameTime)
-        {
+        public override void Draw(GameTime gameTime) {
             Graphics.Draw(texture, Position);
 
             base.Draw(gameTime);
         }
 
-        private Vector2 TileCoords()
-        {
+        private Vector2 TileCoords() {
             return Tile.WorldToTileCoords(Position);
         }
 
-        private void CheckCollisions()
-        {
+        private void CheckCollisions() {
             Vector2 coords = TileCoords();
             isOnFloor = World.Tiles.ContainsKey(new Vector2(coords.X, coords.Y + 1));
         }
 
-        private void FloatTowardsPlayer(float delta)
-        {
+        private void FloatTowardsPlayer(float delta) {
             Acceleration.Y = 0;
             Position += Vector2.Normalize(Evergreen.Player.Position - Position) * 100 * delta;
         }
 
-        private void PickUp()
-        {
+        private void PickUp() {
             Sound.Play("Grab");
             Evergreen.Instance.Components.Remove(this);
             Inventory.Add(this);

@@ -4,10 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Keyboard = Evergreen.System.Keyboard;
 
-namespace Evergreen
-{
-    public class Evergreen : Game
-    {
+namespace Evergreen {
+    public class Evergreen : Game {
         public static Player Player;
         public static Camera Camera;
         public static Evergreen Instance;
@@ -15,15 +13,13 @@ namespace Evergreen
         public static GraphicsDeviceManager GraphicsManager;
         public static SpriteBatch SpriteBatch;
 
-        public Evergreen()
-        {
+        public Evergreen() {
             GraphicsManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
-        protected override void Initialize()
-        {
+        protected override void Initialize() {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             Instance = this;
@@ -35,27 +31,22 @@ namespace Evergreen
             base.Initialize();
         }
 
-        protected override void LoadContent()
-        {
+        protected override void LoadContent() {
             Sound.Load();
         }
 
-        protected override void Update(GameTime gameTime)
-        {
+        protected override void Update(GameTime gameTime) {
             Keyboard.GetState();
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.IsPressed(Keys.Escape))
-            {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.IsPressed(Keys.Escape)) {
                 Exit();
             }
 
             MouseState mouseState = Mouse.GetState();
 
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
+            if (mouseState.LeftButton == ButtonState.Pressed) {
                 Vector2 tile_coords = Tile.MouseToTileCoords(mouseState.Position);
-                if (World.Tiles.TryGetValue(tile_coords, out Tile tile))
-                {
+                if (World.Tiles.TryGetValue(tile_coords, out Tile tile)) {
                     tile.Destroy();
                 }
             }
@@ -65,8 +56,7 @@ namespace Evergreen
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
-        {
+        protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             base.Draw(gameTime);
