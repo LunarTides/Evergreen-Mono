@@ -1,18 +1,13 @@
-﻿using System;
-using Evergreen.System;
+﻿using Evergreen.System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Evergreen {
-    public abstract class Item : DrawableGameComponent {
-        public Vector2 Position;
-        public Vector2 Acceleration = Vector2.Zero;
+    public abstract class Item : PhysicsObject {
         internal Texture2D texture;
-        private bool hasGravity = true;
-        private bool isOnFloor = false;
 
-        public Item(Vector2 position) : base(Evergreen.Instance) {
+        public Item(Vector2 position) : base() {
             Position = position;
 
             LoadContent(Evergreen.Instance.Content);
@@ -23,14 +18,6 @@ namespace Evergreen {
         public override void Update(GameTime gameTime) {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             float playerDistance = Vector2.Distance(Position, Evergreen.Player.Position);
-
-            CheckCollisions();
-
-            if (hasGravity && !isOnFloor) {
-                Physics.ApplyGravity(this);
-            } else {
-                Acceleration.Y = Math.Min(Acceleration.Y, 0f);
-            }
 
             if (playerDistance < 100f) {
                 if (playerDistance < 10f) {
@@ -43,7 +30,6 @@ namespace Evergreen {
                 hasGravity = true;
             }
 
-            Physics.DoAcceleration(this, delta);
             base.Update(gameTime);
         }
 
@@ -57,13 +43,13 @@ namespace Evergreen {
             return Tile.WorldToTileCoords(Position);
         }
 
-        private void CheckCollisions() {
+        internal override void CheckCollisions() {
             Vector2 coords = TileCoords();
             isOnFloor = World.Tiles.ContainsKey(new Vector2(coords.X, coords.Y + 1));
         }
 
         private void FloatTowardsPlayer(float delta) {
-            Acceleration.Y = 0;
+            Velocity.Y = 0;
             Position += Vector2.Normalize(Evergreen.Player.Position - Position) * 100 * delta;
         }
 

@@ -10,7 +10,7 @@ namespace Evergreen {
             // TODO: Remove
             WorldGen.GenerateWorld(Random.Shared.Next());
 
-            Evergreen.Player = new(Evergreen.Instance);
+            Evergreen.Player = new();
             Evergreen.Instance.Components.Add(Evergreen.Player);
         }
     }

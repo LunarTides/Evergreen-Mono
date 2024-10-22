@@ -58,11 +58,11 @@ namespace Evergreen {
 
             Position = Evergreen.Player.Position;
 
-            if (Keyboard.IsJustPressed(Keys.PageUp)) {
+            if (Keyboard.IsPressed(Keys.PageUp)) {
                 AdjustZoom(.1f);
             }
 
-            if (Keyboard.IsJustPressed(Keys.PageDown)) {
+            if (Keyboard.IsPressed(Keys.PageDown)) {
                 AdjustZoom(-.1f);
             }
         }

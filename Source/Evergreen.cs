@@ -38,7 +38,7 @@ namespace Evergreen {
         protected override void Update(GameTime gameTime) {
             Keyboard.GetState();
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.IsPressed(Keys.Escape)) {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.IsHolding(Keys.Escape)) {
                 Exit();
             }
 

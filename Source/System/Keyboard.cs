@@ -11,12 +11,16 @@ namespace Evergreen.System {
             return currentKeyState;
         }
 
-        public static bool IsPressed(Keys key) {
+        public static bool IsHolding(Keys key) {
             return currentKeyState.IsKeyDown(key);
         }
 
-        public static bool IsJustPressed(Keys key) {
+        public static bool IsPressed(Keys key) {
             return currentKeyState.IsKeyDown(key) && !previousKeyState.IsKeyDown(key);
+        }
+
+        public static int GetAxis(Keys positiveKey, Keys negativeKey) {
+            return IsHolding(positiveKey) ? 1 : IsHolding(negativeKey) ? -1 : 0;
         }
     }
 }

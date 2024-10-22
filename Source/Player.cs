@@ -13,19 +13,18 @@ namespace Evergreen {
         Right,
     }
 
-    public class Player : DrawableGameComponent {
-        public Vector2 Position;
-        public Vector2 Acceleration = Vector2.Zero;
+    public class Player : PhysicsObject {
+
         private Texture2D texture;
         private Direction direction = Direction.Right;
-        private bool isOnFloor = false;
         private bool isBlockedRight = false;
         private bool isBlockedLeft = false;
         private bool isBlockedUp = false;
-        private const float SPEED = 100;
-        private const float JUMPING_FORCE = 200;
+        public float AccelerationSpeed = 3f;
+        public float MaxSpeed = 3f;
+        public float JumpForce = 5f;
 
-        public Player(Game game) : base(game) {
+        public Player() : base() {
             LoadContent();
         }
 
@@ -44,34 +43,31 @@ namespace Evergreen {
 
         public override void Update(GameTime gameTime) {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            float updatedPlayerSpeed = SPEED * delta;
 
-            CheckCollisions();
-
-            if (!isOnFloor && Acceleration.Y >= 0) {
-                Physics.ApplyGravity(this);
+            // TODO: Remove.
+            if (Keyboard.IsPressed(Keys.R)) {
+                Position = new Vector2(Evergreen.GraphicsManager.PreferredBackBufferWidth / 2, Evergreen.GraphicsManager.PreferredBackBufferHeight / 2);
             }
-            
-            if (isOnFloor) {
-                Acceleration.Y = Math.Min(Acceleration.Y, 0);
 
-                if (!isBlockedUp && Keyboard.IsJustPressed(Keys.Space)) {
-                    Jump();
+            if (isOnFloor && !isBlockedUp && Keyboard.IsPressed(Keys.Space)) {
+                Jump();
+            }
+
+            int axis = Keyboard.GetAxis(Keys.D, Keys.A);
+
+            Velocity.X += AccelerationSpeed * axis * delta;
+            Velocity.X = Math.Clamp(Velocity.X, -MaxSpeed, MaxSpeed);
+
+            shouldSlowDown = axis == 0;
+
+            if (axis != 0) {
+                direction = axis == 1 ? Direction.Right : Direction.Left;
+
+                if ((axis == 1 && isBlockedRight) || (axis == -1 && isBlockedLeft)) {
+                    Velocity.X = 0;
                 }
             }
 
-            if (!isBlockedLeft && Keyboard.IsPressed(Keys.A)) {
-                direction = Direction.Left;
-                // TODO: Use Acceleration
-                Position.X -= updatedPlayerSpeed;
-            }
-
-            if (!isBlockedRight && Keyboard.IsPressed(Keys.D)) {
-                direction = Direction.Right;
-                Position.X += updatedPlayerSpeed;
-            }
-
-            Physics.DoAcceleration(this, delta);
             base.Update(gameTime);
         }
 
@@ -86,7 +82,7 @@ namespace Evergreen {
             return Tile.WorldToTileCoords(new Vector2(((Position.X / 16f) + 1f) * 16, Position.Y));
         }
 
-        private void CheckCollisions() {
+        internal override void CheckCollisions() {
             Vector2 pos = TileCoords();
 
             Vector2[] stopLeftPositions = [
@@ -118,7 +114,7 @@ namespace Evergreen {
         }
 
         private void Jump() {
-            Acceleration.Y = -JUMPING_FORCE;
+            Velocity.Y = -JumpForce;
         }
     }
 }
